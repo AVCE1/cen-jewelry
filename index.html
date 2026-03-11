@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <meta charset="UTF-8">
-<title>水贝珠宝平台</title>
+
+<title>水贝珠宝选货平台</title>
 
 <style>
 
 body{
 font-family:Arial;
 margin:0;
-background:#f2f2f2;
+background:#f5f5f5;
 }
 
 .header{
@@ -33,16 +36,17 @@ justify-content:center;
 
 .product{
 background:white;
-width:260px;
-margin:10px;
+width:280px;
+margin:15px;
 padding:15px;
 border-radius:10px;
-text-align:center;
 box-shadow:0 5px 10px rgba(0,0,0,0.1);
+text-align:left;
 }
 
 .product img{
-width:200px;
+width:100%;
+border-radius:5px;
 }
 
 button{
@@ -54,18 +58,23 @@ border-radius:5px;
 cursor:pointer;
 }
 
-.admin{
-background:white;
-padding:20px;
-margin:20px;
-border-radius:10px;
-}
-
 .orders{
 background:white;
 margin:20px;
 padding:20px;
 border-radius:10px;
+}
+
+.admin{
+background:white;
+margin:20px;
+padding:20px;
+border-radius:10px;
+}
+
+input{
+padding:8px;
+margin:5px;
 }
 
 </style>
@@ -75,7 +84,7 @@ border-radius:10px;
 <body>
 
 <div class="header">
-水贝珠宝平台
+水贝珠宝选货平台
 </div>
 
 
@@ -90,7 +99,9 @@ border-radius:10px;
 </div>
 
 
+
 <div class="products" id="productList"></div>
+
 
 
 <div class="orders">
@@ -102,17 +113,25 @@ border-radius:10px;
 </div>
 
 
+
 <div class="admin">
 
-<h2>厂家后台</h2>
+<h2>厂家后台（上传产品）</h2>
 
 <input id="pname" placeholder="产品名称">
+
 <input id="pfactory" placeholder="厂家">
+
 <input id="pweight" placeholder="重量">
+
+<input id="pcode" placeholder="产品编号">
+
+<input id="pseries" placeholder="系列">
 
 <button onclick="addProduct()">添加产品</button>
 
 </div>
+
 
 
 <script>
@@ -125,7 +144,9 @@ let products=[
 name:"蝴蝶结黄金项链",
 factory:"YZZ珠宝",
 weight:"20g",
-img:"https://images.unsplash.com/photo-1617038260897-41a1f14a9c9c",
+code:"YZZ-001",
+series:"5G黄金",
+img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f",
 likes:0,
 fav:0
 },
@@ -134,7 +155,9 @@ fav:0
 name:"黄金手镯",
 factory:"粤至尊",
 weight:"35g",
-img:"https://images.unsplash.com/photo-1605100804763-247f67b3557e",
+code:"YZZ-021",
+series:"古法黄金",
+img:"https://images.unsplash.com/photo-1601121141461-9d6647bca1ed",
 likes:0,
 fav:0
 },
@@ -143,14 +166,30 @@ fav:0
 name:"5G黄金吊坠",
 factory:"丽安珠宝",
 weight:"10g",
+code:"LA-114",
+series:"轻奢系列",
 img:"https://images.unsplash.com/photo-1515562141207-7a88fb7ce338",
+likes:0,
+fav:0
+},
+
+{
+name:"黄金戒指",
+factory:"金至尊",
+weight:"8g",
+code:"JZZ-008",
+series:"钻镶系列",
+img:"https://images.unsplash.com/photo-1617038260897-41a1f14a9c9c",
 likes:0,
 fav:0
 }
 
 ]
 
+
 let orders=[]
+
+
 
 function login(){
 
@@ -159,6 +198,7 @@ user=document.getElementById("user").value
 document.getElementById("loginStatus").innerText="欢迎 "+user
 
 }
+
 
 
 function renderProducts(){
@@ -175,9 +215,13 @@ html+=`
 
 <h3>${p.name}</h3>
 
-<p>厂家:${p.factory}</p>
+<p>厂家：${p.factory}</p>
 
-<p>重量:${p.weight}</p>
+<p>系列：${p.series}</p>
+
+<p>编号：${p.code}</p>
+
+<p>重量：${p.weight}</p>
 
 <p>点赞:${p.likes} 收藏:${p.fav}</p>
 
@@ -198,6 +242,7 @@ document.getElementById("productList").innerHTML=html
 }
 
 
+
 function like(i){
 
 products[i].likes++
@@ -206,6 +251,8 @@ renderProducts()
 
 }
 
+
+
 function fav(i){
 
 products[i].fav++
@@ -213,6 +260,7 @@ products[i].fav++
 renderProducts()
 
 }
+
 
 
 function order(i){
@@ -239,9 +287,10 @@ user:user
 
 renderOrders()
 
-alert("下单成功 订单:"+id)
+alert("下单成功\n订单:"+id)
 
 }
+
 
 
 function renderOrders(){
@@ -259,20 +308,23 @@ document.getElementById("orderList").innerHTML=html
 }
 
 
+
 function addProduct(){
 
 let name=document.getElementById("pname").value
-
 let factory=document.getElementById("pfactory").value
-
 let weight=document.getElementById("pweight").value
+let code=document.getElementById("pcode").value
+let series=document.getElementById("pseries").value
 
 products.push({
 
 name:name,
 factory:factory,
 weight:weight,
-img:"https://images.unsplash.com/photo-1617038260897-41a1f14a9c9c",
+code:code,
+series:series,
+img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f",
 likes:0,
 fav:0
 
@@ -283,10 +335,11 @@ renderProducts()
 }
 
 
+
 renderProducts()
 
 </script>
 
-
 </body>
+
 </html>
